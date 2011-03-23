@@ -1,0 +1,131 @@
+#summary Subversion nadzor projekta.
+
+= Vsebina =
+* [Subversion#Subversion_nadzor_projekta Subversion nadzor projekta]
+ # [Subversion#Prenos_celotnega_projekta_v_lokalno_mapo Prenos celotnega projekta v lokalno mapo]
+ # [Subversion#Obdelava_datotek_v_lokalnem_direktoriju Obdelava datotek v lokalnem direktoriju]
+  # [Subversion#Dodajanje_datoteke_ali_direktorija_v_projekt Dodajanje datoteke ali direktorija v projekt]
+  # [Subversion#Odstranjevanje_datoteke_ali_direktorija_iz_projekta Odstranjevanje datoteke ali direktorija iz projekta]
+  # [Subversion#Dupliciranje_datoteke_ali_direktorija_v_projektu Dupliciranje datoteke ali direktorija v projektu]
+  # [Subversion#Direktno_dodajanje_novega_direktorija_v_projekt Direktno dodajanje novega direktorija v projekt]
+  # [Subversion#Status_in_razlike_trenutnega_upravljanja Status in razlike trenutnega upravljanja]
+  # [Subversion#Vrtenje_datoteko_na_predzadnjo_verzijo Vrtenje datoteke na predzadnjo verzijo]
+  # [Subversion#Posodabljanje_projekta Posodabljanje projekta]
+ 
+ 
+
+= Subversion nadzor projekta =
+
+== Prenos celotnega projekta v lokalno mapo ==
+
+Prenos je mogoče izvesti z ukazom 
+_svn checkout URL --username USERNAME
+_. V našem primeru je URL projekta https://codename-m-and-m.googlecode.com/svn/codename-m-and-m.
+Zadnje stikalo je potrebno le ob prvem prenosu. Potrebno bo tudi vpisati geslo, ki ga najdeš na [https://code.google.com/hosting/settings Profilu] in ni enako geslu za gmail. Naslednjič ko prenašate datoteke lahko uporabljate le _svn checkout URL_ tako kot je na primeru:
+{{{
+svn checkout https://codename-m-and-m.googlecode.com/svn/codename-m-and-m
+A    codename-m-and-m/kernel
+A    codename-m-and-m/kernel/include
+A    codename-m-and-m/kernel/include/system.h
+A    codename-m-and-m/kernel/kernel.bin
+A    codename-m-and-m/kernel/link.ld
+A    codename-m-and-m/kernel/start.asm
+Checked out revision 4.
+Mapa s projektom se bo prenesla v trenutni delujoči direktorij.
+}}}
+
+== Obdelava datotek v lokalnem direktoriju ==
+=== Dodajanje datoteke ali direktorija v projekt ===
+Dodajanje datoteke je mogoče z ukazom _svn add DATOTEKA_. Za izvedbo morate biti v direktoriju kjer se DATOTEKA nahaja.
+Primer uporabe:
+{{{
+uros@ubuntu:~/codename-m-and-m/kernel$ svn add added.txt 
+A         added.txt
+[1]+  Done                    gedit added.txt
+}}}
+V tem primeru smo označili datoteko added.txt za dodajanje v projekt. Po izvedbi ukaza _svn commit_ se bo datoteka dodala v projekt. Datoteka mora obstajati pred dodajanjem v trenutni delujoči mapi.
+=== Odstranjevanje datoteke ali direktorija iz projekta ===
+Odstranjevanje je mogoče z ukazom _svn delete DATOTEKA_. Za izvedbo morate biti v direktoriju kjer se DATOTEKA nahaja. Če je bila datoteka lokalno spremenjena, dodana v projekt in jo hočete odstraniti je potrebno dodati na koncu še stikalo _--force_.
+Primer uporabe:
+{{{
+uros@ubuntu:~/codename-m-and-m/kernel$ svn remove added.txt --force
+D         added.txt
+}}}
+Datoteka bo odstranjena po izvedbi ukaza _svn commit_. Datoteka mora pred izvedbo ukaza obstajati v projektu.
+=== Dupliciranje datoteke ali direktorija v projektu ===
+Dupliciranje je mogoče opraviti z ukazom _svn copy SRC_DATOTEKA DEST_DATOTEKA_. Ukaz bo naredil duplikat SRC_DATOTEKE z imenom DEST_DATOTEKA in jo dodal v projekt. 
+Primer uporabe:
+{{{
+uros@ubuntu:~/codename-m-and-m/kernel$ svn copy added.txt copied.txt
+A         copied.txt
+}}}
+Spremembe bodo dodane po izvedbi ukaza _svn commit_. Datoteka SRC_DATOTEKA mora že prej biti v projektu.
+=== Direktno dodajanje novega direktorija v projekt ===
+Omogočeno je z uporabo ukaza _svn mkdir DIREKTORIJ_, ki pa je ekvivalenten izvedbi ukaza _mkdir DIREKTORIJ_ in _svn add DIREKTORIJ_. Skratka ustvari direktorij in ga nastavi za dodajanje v projekt.
+Primer uporabe:
+{{{
+uros@ubuntu:~/codename-m-and-m/kernel$ svn mkdir source
+A         source
+}}}
+Spremembe v projektu se bodo pojavile šele po izvedbi ukaza _svn commit_.
+
+=== Status in razlike trenutnega upravljanja ===
+
+Za izpis statusa datotek v domačem direktorju projekta uporabite ukaz _svn status_ v primeru da niste naredili nobenih sprememb se ne bo izpisalo nič, če pa ste spremenili kakršnokoli datoteko ali mapo vas bo ukaz obvestil z oznakami, ki vam povejo kaj se bo zgodilo z datotekami ali direktoriji, ki so bili spremenjeni.
+Primer uporabe:
+{{{
+uros@ubuntu:~/codename-m-and-m/kernel$ svn status
+?       readme
+A       source
+A       source/system.c
+M       include/system.h
+
+}}}
+* Oznake
+ * ? - Datoteka ni pod svn nadzorom (podrebno dodajanje z ukazom _svn add FILE_.
+ * A - Datoteka bo dodana v projekt po izvedbi ukaza _svn commit_.
+ * M - Datoteka je bila spremenjena in bo po izvedbi ukaza _svn commit_ spremenjena v projektu.
+ * C - Datoteka vsebuje tekstovne konflikte.
+ * D - Datoteka bo odstranjena po izvedbi ukaza _svn commit_.
+
+Za pregled razlik v projektu in domači kopiji projekta uporabite ukaz _svn diff_.
+Izpiše vse razlike med projektoma.
+Primer uporabe:
+{{{
+uros@ubuntu:~/codename-m-and-m/kernel$ svn diff
+Index: source/system.c
+===================================================================
+Index: include/system.h
+===================================================================
+--- include/system.h	(revision 4)
++++ include/system.h	(working copy)
+@@ -0,0 +1,3 @@
++#ifndef _SYSTEM_H_
++#define _SYSTEM_H_
++#endif
+}}}
+Kot vidite se razlike izpišejo dobesedno. Datoteka system.c je prazna a je dodana na novo torej se izpiše njena vsebina. Datoteka system.h pa je bila že prej v projektu vendar je bila spremenjena njena vsebina. Prej je bila prazna , njena vsebina sedaj pa so tri vrstice c-jevske kode . Izpis uporabi + za prikaz dodane vrstice in - za prikaz odstranjene vrstice.
+=== Vrtenje datoteko na predzadnjo verzijo ===
+Datoteke lahko prevrtite na prejšnjo verzijo z uporabo ukaza _svn revert DATOTEKA_.
+Primer ukaza:
+{{{
+uros@ubuntu:~/codename-m-and-m/kernel/include$ cat system.h
+#ifndef _SYSTEM_H_
+#define _SYSTEM_H_
+#endif
+uros@ubuntu:~/codename-m-and-m/kernel/include$ svn revert system.h
+Reverted 'system.h'
+uros@ubuntu:~/codename-m-and-m/kernel/include$ cat system.h
+uros@ubuntu:~/codename-m-and-m/kernel/include$
+}}}
+Datoteka je vsebovala tri vrstice na trenutni verziji, ko jo prevrtimo nazaj pa ne vsebuje ničesar. Če bi imeli med tema dvema verzijama še verzijo, ki bi vsebovala druge vrstice bi se prikazale te druge vrstice.
+=== Posodabljanje projekta ===
+Projekt lahko posodobimo z uporabo ukaza _svn commit -m "SPREMEMBE"_. Nujno morate navesti SPREMEMBE, saj vam v primeru da ne uporabite stikala -m odpre vi editor, kamor morate vseeno vpisati spremembe. Stikalo -m vam omogoča da to storite hitreje. Po izvedbi se vse datoteke v projektu posodobijo v skladu z spremenjenimi datotekami in direktoriji v vaši lokalni mapi.
+Primer uporabe:
+{{{
+uros@ubuntu:~/codename-m-and-m/kernel$ svn commit -m "Dodan direktorij source, ki bo vseboval vse C datoteke v izvorni kodi."
+Adding         kernel/source
+Adding         kernel/source/loader.c
+Transmitting file data .
+Committed revision 10.
+}}}
