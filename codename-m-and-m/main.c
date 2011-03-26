@@ -33,13 +33,25 @@ unsigned char *memcpy(void *dst_ptr, const void *src_ptr, unsigned count){
 	return ret_val;
 }
 unsigned char *memset(unsigned char *dest, unsigned char val, unsigned count){
-	
+	char *temp = (char *) dest;
+	for( ; count != 0; count--){
+		*temp++=val;
+	}
+	return dest;
 }
 unsigned short *memsetw(unsigned short *dest, unsigned short val, unsigned count){
-
+	unsigned short *temp = (unsigned short *) dest;
+	for( ; count != 0; count--){
+		*temp++ = val;
+	}
+	return dest;
 }
 int strlen(const char *str){
-	
+	int length;
+	for(length = 0; *str!='\0'; str++){
+		length++;
+	}
+	return length;
 }
 
 int main(void){
