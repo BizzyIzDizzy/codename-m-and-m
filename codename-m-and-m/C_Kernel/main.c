@@ -1,6 +1,5 @@
 #include <system.h>
 
-#define VGA_MISC_READ 	0x3CC // VGA output register
 /* Za compiler in njegove podčrtaje:P */
 #ifdef __WIN32__
 #if __GNUC__<3
@@ -54,21 +53,22 @@ int strlen(const char *str){
 	return length;
 }
 
-int main(void){
-	static const char msg1[] = "Codename M & M";
-	static const char msg2[] = "FRI 2011";
-	unsigned vga_fb_adr;
-	
-	/* preverjanje za enobarvno ali barvno VGA emulacijo */
-	if((inportb(VGA_MISC_READ) & 0x01) != 0)
-		vga_fb_adr = 0xb8000;
-	else
-		vga_fb_adr = 0xB0000;
-	/* Prikaz sporočila na vrhu */
-	memcpy((char *)(vga_fb_adr + 0), msg1, sizeof(msg1) -1);
-	/* Prikaz sporočila v drugi vrstici */
-	memcpy((char *)(vga_fb_adr + 160), msg2, sizeof(msg2) -1);
-	/* vrnitev v start.asm, kjer se bo sistem ustavil */
+int main(void){	
+	char * msg1 = "Codename-M-and-M\n";
+	char * msg2 = "FRI 2011\n";
+	int sredina1 = 80/2-(strlen(msg1)/2);
+	int sredina2 = 80/2-(strlen(msg2)/2);
+	int i;
+	init_video();
+	for(i = 0; i<sredina1; i++){
+		putch(' ');
+	}
+	puts("Codename-M-and-M\n");
+	for(i = 0; i<sredina2; i++){
+		putch(' ');
+	}
+	puts("FRI 2011\n");
+	for(;;)
 	return 0;
 }
 
