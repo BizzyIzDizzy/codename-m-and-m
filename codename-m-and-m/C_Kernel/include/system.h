@@ -8,6 +8,9 @@ extern unsigned char *memset(unsigned char *dest, unsigned char val, unsigned co
 extern unsigned short *memsetw(unsigned short *dest, unsigned short val, unsigned count);
 extern int strlen(const char *str);
 /* Prototipi funkcij iz scrn.c */
+extern int getCsr_x(void);
+extern int getCsr_y(void);
+extern void setCsr(int x, int y);
 extern void cls();
 extern void putch(unsigned char c);
 extern void puts(char *str);

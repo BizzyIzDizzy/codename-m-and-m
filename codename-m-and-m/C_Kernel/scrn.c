@@ -13,6 +13,16 @@ int attrib = 0x0F;
 int csr_x = 0;
 int csr_y = 0;
 
+int getCsr_x(void){
+	return csr_x;
+}
+int getCsr_y(void){
+	return csr_y;
+}
+void setCsr(int x, int y){
+	csr_x = x;
+	csr_y = y;
+}
 /* Poscrolla po zaslonu */
 void scroll(void){
 	unsigned blank, temp;

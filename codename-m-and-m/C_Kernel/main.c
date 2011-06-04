@@ -52,23 +52,110 @@ int strlen(const char *str){
 	}
 	return length;
 }
-
+void sleep(double miliseconds){
+	double counter;
+	for(counter = 0; counter < miliseconds; counter++){	
+		float temp = 0;
+		while(temp<20000){
+			temp+=0.1;
+		}	
+	}
+}
 int main(void){	
 	char * msg1 = "Codename-M-and-M\n";
-	char * msg2 = "FRI 2011\n";
+	char * msg2 = "Uros Marolt & Anze Mikec\n";
+	char * msg3 = "FRI 2011";	
 	int sredina1 = 80/2-(strlen(msg1)/2);
 	int sredina2 = 80/2-(strlen(msg2)/2);
+	int sredina3 = 80/2-(strlen(msg3)/2);
 	int i;
 	init_video();
-	for(i = 0; i<sredina1; i++){
-		putch(' ');
+	settextcolor(0x3,0x0);
+	int counter = 1;
+	int test = 1;
+	while(test==1){
+		cls();		
+		for(i=1; i<counter; i++){
+			puts("\n");
+		}
+		if(counter != 26 && counter != 27){
+			for(i=0; i<sredina1; i++){
+				putch(' ');
+			}		
+			puts(msg1);
+		}else if(counter == 26){
+			int x = getCsr_x();
+			int y = getCsr_y();
+			setCsr(0,0);
+			for(i=0; i<sredina1; i++){
+				putch(' ');
+			}
+			puts(msg1);
+			setCsr(x,y);
+		}
+		if(counter != 25 && counter != 26 && counter != 27){
+			for(i=0; i<sredina2; i++){
+				putch(' ');
+			}
+			puts(msg2);
+		}else if(counter == 25){
+			int x = getCsr_x();
+			int y = getCsr_y();
+			setCsr(0,0);
+			for(i=0; i<sredina2; i++){
+				putch(' ');
+			}
+			puts(msg2);
+			setCsr(x,y);
+		}else if(counter == 26){
+			int x = getCsr_x();
+			int y = getCsr_y();
+			setCsr(0,1);
+			for(i=0; i<sredina2; i++){
+				putch(' ');
+			}
+			puts(msg2);
+			setCsr(x,y);
+		}
+		if(counter != 24 && counter != 25 && counter != 26 && counter != 27){
+			for(i=0; i<sredina3; i++){
+				putch(' ');
+			}
+			puts(msg3);
+		}else if(counter == 24){
+			int x = getCsr_x();
+			int y = getCsr_y();
+			setCsr(0,0);
+			for(i=0; i<sredina3; i++){
+				putch(' ');
+			}
+			puts(msg3);
+			setCsr(x,y);
+		}else if(counter == 25){
+			int x = getCsr_x();
+			int y = getCsr_y();
+			setCsr(0,1);
+			for(i=0; i<sredina3; i++){
+				putch(' ');
+			}
+			puts(msg3);
+			setCsr(x,y);
+		}else if(counter == 26){
+			int x = getCsr_x();
+			int y = getCsr_y();
+			setCsr(0,2);
+			for(i=0; i<sredina3; i++){
+				putch(' ');
+			}
+			puts(msg3);
+			setCsr(x,y);
+		}				
+		sleep(500);
+		counter++;
+		if(counter == 27){
+			counter = 2;
+		}
 	}
-	puts("Codename-M-and-M\n");
-	for(i = 0; i<sredina2; i++){
-		putch(' ');
-	}
-	puts("FRI 2011\n");
-	for(;;)
 	return 0;
 }
 
