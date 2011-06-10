@@ -1,0 +1,2 @@
+#summary Subversion nadzor projekta.
+= Vsebina =
