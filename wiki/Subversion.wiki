@@ -1,5 +1,3 @@
-MY NAME IS UROŠ
-
 #summary Subversion nadzor projekta.
 
 = Vsebina =
