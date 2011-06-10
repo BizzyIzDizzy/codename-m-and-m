@@ -1,0 +1,5 @@
+#summary How-To Wiki Pages
+= Vsebina =
+* [Adding_wiki_page#How-To_Wiki_Pages How-To Wiki Pages]
+
+= How-To Wiki Pages =
