@@ -1,39 +1,32 @@
 #!/bin/bash
 
-# Flags for compiling sources
-NASMFLAGS=""
-CPPFLAGS=""
-CFLAGS=""
-# Sources for compiling
-NASMSRC=""
-CPPSRC=""
-CSRC=""
-function compile(){
+# Flags for compiling
+
+# Sources to compile
+
+function Compile(){
 	echo "Compiling!"
 }
-function assemble(){
+function Assemble(){
 	echo "Assembling!"
 }
-	function link(){
+function Link(){
 	echo "Linking!"
 }
-function help(){
+function Help(){
 	echo "Help!"
-	exit 0;
 }
-
 case $1 in
 	(help|h)
-		help;;
+		Help;;
 	(compile)
-		compile;;
+		Compile;;
 	(assemble)
-		assemble;;
+		Assemble;;
 	(link)
-		link;;
-	(all)
-		assemble;
-		compile;
-		link;;
-	(*)
-		help;;
+		Link;;
+	(all)	
+		Assemble;
+		Compile;
+		Link;;
+esac
