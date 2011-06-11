@@ -67,20 +67,19 @@ function CompileCpp(){
 	done
 }
 function Link(){
-	printf "\n"
 	ld $LDFLAGS $KERNEL $LDSRC || printf "Linking failed!\n\n"
 	if [ -a $KERNEL ]; then
 		printf "Linkig was a success! Kernel file = $KERNEL!\n\n"
 	fi
 }
 function Clean(){
-	printf "\n\nCleaning the object files!\n"
+	printf "\nCleaning the object files!\n"
 	FLAG="$OUTPUT"*.o
 	rm $FLAG || printf "No object files to clean!\n"
 	printf "\nCleaning done!\n"
 }
 function CleanAll(){
-	printf "\n\nCleaning the object files!\n"
+	printf "\nCleaning the object files!\n"
 	FLAG="$OUTPUT"*.o
 	rm $FLAG || printf "No object files to clean!\n"
 	FLAG="$OUTKERNEL"*.bin
@@ -89,7 +88,7 @@ function CleanAll(){
 	printf "\nCleaning done!\n"
 }
 function Run(){
-	printf "\nTESTING KERNEL IN THE QEMU!\n"
+	printf "\nTESTING KERNEL IN QEMU!\n"
 	FLAG="-kernel $KERNEL "
 	qemu $FLAG || printf "Testing failed! Check the kernel binary! \n"
 }
@@ -102,10 +101,10 @@ Usable flags are:\n
 assemble\t- will assemble the files provided with the [file1 ... fileN]\n
 \t argument or the files in the NASMSRC variable in this script (can be modified)\n
 \t if no files are provided.\n\n
-compile\t- will compile .c and .cpp files provided with the [fileq ... fileN]\n
+compile\t - will compile .c and .cpp files provided with the [fileq ... fileN]\n
 \t argument or the files in the CSRC and CPPSRC variable in this script (can be modified) \n
 \t if no files are provided.\n\n
-link\t- will link all the object files together into a kernel binary.\n
+link\t - will link all the object files together into a kernel binary.\n
 \t The [file1 ... fileN] argument must be provided so the linker knows\n
 \t which files to link together! This can not be done automaticly so u MUST\n
 \t provide the filenames!\n\n
@@ -127,10 +126,32 @@ case $1 in
 	(help|h)
 		Help;;
 	(assemble)
-		Assemble $NASMSRC;;
+		shift
+		if ((${#1}!=0)); then
+			NASMSRC=""	
+		fi
+		while((${#1}!=0)); do
+			NASMSRC="$NASMSRC $1"
+			shift
+		done
+		Assemble $NASMSRC ;;
 	(compile)
-		CompileC $CSRC;
-		CompileCpp $CPPSRC;;
+		shift
+		if ((${#1}!=0)); then
+			CPPSRC=""
+			CSRC=""
+		fi
+		while((${#1}!=0)); do
+			end=${1:((${#1}-3)):3}
+			if [ end == "cpp" ]; then
+				CPPSRC="$CPPSRC $1"
+			else
+				CSRC="$CSRC $1"
+			fi
+			shift
+		done
+		CompileC $CSRC ;
+		CompileCpp $CPPSRC ;;
 	(link)
 		shift
 		while((${#1}!=0)); do
