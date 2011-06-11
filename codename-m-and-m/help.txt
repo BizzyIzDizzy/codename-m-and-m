@@ -1,0 +1,43 @@
+
+You can use this script to build the entire project alltogether
+or you can use it to do all the sections of the building seperatly!
+
+Usage:
+./make.sh [flag] [file1 ... fileN]
+
+Usable flags are:
+
+-assemble     - will assemble the files provided with the [file1 ... fileN]
+		argument or the files in the NASMSRC variable in this script 
+		(can be modified) if no files are provided.
+
+-compile      - will compile .c and .cpp files provided with the [fileq ... fileN]
+		argument or the files in the CSRC and CPPSRC variable in this 
+		script (can be modified) if no files are provided.
+
+-link         - will link all the object files together into a kernel binary.
+		The [file1 ... fileN] argument must be provided so the linker 
+		knows which files to link together! This can not be done 
+		automaticly so u MUST provide the filenames!
+
+-clean        - will remove all the object files and the kernel binaries!
+
+-run          - will run the kernel binary in the QEMU system simulator!
+
+-all          - will assemble, compile and link all the files in the src and 
+		asm folder of this project. All the source files included 
+		in the project must be entered in the variables in this script!
+		Varriables:
+			NASMSRC - all the assembly sources seperated spaces!
+			CSRC - all the C sources seperated with spaces!
+			CPPSRC - all the C++ sources seperated with spaces
+		If you will use diffferend Linker script file you should enter 
+		that aswell:
+			LDSCRIPT - linker script file - it should be only one!
+		Then it should run the kernel binary with QEMU
+		This will also clean all the object files in the object folder.
+		The kernel binary should be in the kernel folder.
+
+-help	       - will print out this help message.
+For more help you can contact me: bizzyizdizzy@gmail.com!
+

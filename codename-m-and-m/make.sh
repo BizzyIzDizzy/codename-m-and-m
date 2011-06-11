@@ -93,39 +93,12 @@ function Run(){
 	qemu $FLAG || printf "Testing failed! Check the kernel binary! \n"
 }
 function Help(){
-	printf "You can use this script to build the entire project alltogether\n
-or you can use it to do all the sections of the building seperatly!\n\n
-Usage:\n
-./make.sh [flags] [file1 ... fileN]\n
-Usable flags are:\n
-assemble\t- will assemble the files provided with the [file1 ... fileN]\n
-\t argument or the files in the NASMSRC variable in this script (can be modified)\n
-\t if no files are provided.\n\n
-compile\t - will compile .c and .cpp files provided with the [fileq ... fileN]\n
-\t argument or the files in the CSRC and CPPSRC variable in this script (can be modified) \n
-\t if no files are provided.\n\n
-link\t - will link all the object files together into a kernel binary.\n
-\t The [file1 ... fileN] argument must be provided so the linker knows\n
-\t which files to link together! This can not be done automaticly so u MUST\n
-\t provide the filenames!\n\n
-clean\t - will remove all the object files and the kernel binaries!\n\n
-run\t - will run the kernel binary in the QEMU system simulator!\n\n
-all\t - will assemble, compile and link all the files in the src and asm folder\n
-\t of this project. All the source files included in the project must be entered in\n
-\t the variables in this script!\n
-\t \t NASMSRC - all the assembly sources seperated spaces!\n
-\t \t CSRC - all the C sources seperated with spaces!\n
-\t \t CPPSRC - all the C++ sources seperated with spaces\n
-\t If you will use diffferend Linker script file you should enter that aswell:\n
-\t \t LDSCRIPT - linker script file - it should be only one!\n
-\t Then it should run the kernel binary with QEMU\n
-\t This will also clean all the object files in the object folder.\n
-\t The kernel binary should be in the kernel folder.\n\n"		
+	cat help.txt		
 }
 case $1 in
-	(help|h)
+	(-help|-h)
 		Help;;
-	(assemble)
+	(-assemble)
 		shift
 		if ((${#1}!=0)); then
 			NASMSRC=""	
@@ -135,7 +108,7 @@ case $1 in
 			shift
 		done
 		Assemble $NASMSRC ;;
-	(compile)
+	(-compile)
 		shift
 		if ((${#1}!=0)); then
 			CPPSRC=""
@@ -152,18 +125,18 @@ case $1 in
 		done
 		CompileC $CSRC ;
 		CompileCpp $CPPSRC ;;
-	(link)
+	(-link)
 		shift
 		while((${#1}!=0)); do
 			LDSRC="$LDSRC $OUTPUT$1"
 			shift
 		done
 		Link;;
-	(clean)
+	(-clean)
 		CleanAll;;
-	(run)
+	(-run)
 		Run;;
-	(all)
+	(-all)
 		Assemble $NASMSRC;
 		CompileC $CSRC;
 		CompileCpp $CPPSRC
