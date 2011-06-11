@@ -18,15 +18,15 @@ function Help(){
 }
 case $1 in
 	(help|h)
-		Help;;
+	Help;;
 	(compile)
-		Compile;;
+	Compile;;
 	(assemble)
-		Assemble;;
+	Assemble;;
 	(link)
-		Link;;
+	Link;;
 	(all)	
-		Assemble;
-		Compile;
+	Assemble;
+	Compile;
 		Link;;
 esac
