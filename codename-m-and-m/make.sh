@@ -14,7 +14,7 @@ function compile(){
 function assemble(){
 	echo "Assembling!"
 }
-function link(){
+	function link(){
 	echo "Linking!"
 }
 function help(){
