@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 # Flags for compiling sources
 NASMFLAGS=""
