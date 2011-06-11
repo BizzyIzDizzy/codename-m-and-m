@@ -15,23 +15,19 @@ Readme.txt			-Informations about the project
 --/ TRY THE KERNEL /--
 You will need some programs to assemble Assembly, C and C++ files.
 You will also need a linker which will link all the object files together.
+For the kernel emulation you will also need QEMU computer system emulator.
 You can get all programs with the
 sudo apt-get install "package"
 where the package is/are:
--nasm
--gcc
--c++
--ld
-
+nasm
+gcc
+c++
+ld
+qemu
 When you have all programs installed you can run make.sh script like this:
-./make.sh
+./make.sh all
 Which will compile, assemble and link all files together into kernel.bin file.
-
-To test this kernel binary you can use a program qemu (sudo apt-get install qemu),
-which will use the QEMUs bootloader to load out kernel.
-Use it like this:
-qemu -kernel kernel.bin
-It should run the kernel binary file in a new window.
+It will also run the kernel binary in the QEMU computer system emulator.
 
 --/ CONTRIBUTE TO THE PROJECT /--
 We use Eclipse IDE with some plugins installed:
